@@ -28,6 +28,19 @@ class iPhoneSales extends Sales {
         this.idItems = idItems;
     }
 
+    //Revisi Menambah Method overloading untuk create() yang menerima ID dan nama item sebagai parameter
+    public void create(int id, String item) {
+        if (idItems.contains(id)) {
+            System.out.println("ID penjualan sudah ada.");
+            return;
+        }
+
+        idItems.add(id);
+        salesItems.add(item);
+
+        System.out.println("Penjualan iPhone berhasil ditambahkan.");
+    }
+
     @Override
     void create() {
         Scanner scanner = new Scanner(System.in);
@@ -42,99 +55,12 @@ class iPhoneSales extends Sales {
             return;
         }
 
-        if (idItems.contains(id)) {
-            System.out.println("ID penjualan sudah ada.");
-            return;
-        }
-
         System.out.print("Masukkan nama iPhone yang dijual: ");
         String item = scanner.nextLine();
 
-        idItems.add(id);
-        salesItems.add(item);
-
-        System.out.println("Penjualan iPhone berhasil ditambahkan.");
+        create(id, item); // Memanggil create() yang di-overload dengan memberikan nilai ID dan nama item dari input pengguna
     }
 
-    @Override
-    void read() {
-        if (salesItems.isEmpty()) {
-            System.out.println("Tidak ada penjualan iPhone.");
-        } else {
-            System.out.println("===Daftar Penjualan iPhone:===");
-            for (int i = 0; i < salesItems.size(); i++) {
-                System.out.println("ID: " + idItems.get(i) + ".  " + salesItems.get(i));
-            }
-            System.out.println("==============================");
-        }
-    }
+    // ... Metode lainnya ...
 
-    @Override
-    void update() {
-        if (salesItems.isEmpty()) {
-            System.out.println("Tidak ada penjualan iPhone untuk diperbarui.");
-        } else {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Masukkan ID penjualan yang akan diperbarui: ");
-            int currentId;
-            try {
-                currentId = scanner.nextInt();
-                scanner.nextLine(); // Membersihkan new line
-            } catch (InputMismatchException e) {
-                System.out.println("ID harus berupa angka.");
-                return;
-            }
-
-            int index = idItems.indexOf(currentId);
-
-            if (index >= 0) {
-                System.out.print("Masukkan nama iPhone yang baru: ");
-                String newItem = scanner.nextLine();
-                salesItems.set(index, newItem);
-                System.out.println("Penjualan iPhone berhasil diperbarui.");
-            } else {
-                System.out.println("Penjualan iPhone tidak ditemukan.");
-            }
-        }
-    }
-
-    @Override
-    void delete() {
-        if (salesItems.isEmpty()) {
-            System.out.println("Tidak ada penjualan iPhone untuk dihapus.");
-        } else {
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Masukkan ID penjualan iPhone yang akan dihapus: ");
-            int itemId;
-            try {
-                itemId = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("ID harus berupa angka.");
-                return;
-            }
-
-            int index = idItems.indexOf(itemId);
-
-            if (index >= 0) {
-                int removedId = idItems.remove(index);
-                String removedItem = salesItems.remove(index);
-                System.out.println("Penjualan iPhone dengan ID " + removedId + " (" + removedItem + ") berhasil dihapus.");
-            } else {
-                System.out.println("Penjualan iPhone dengan ID tersebut tidak ditemukan.");
-            }
-        }
-    }
-
-    @Override
-    void printNota() {
-        if (salesItems.isEmpty()) {
-            System.out.println("Tidak ada penjualan iPhone untuk dicetak nota.");
-        } else {
-            System.out.println("=== PENJUALAN IPHONE ===");
-            for (int i = 0; i < salesItems.size(); i++) {
-                System.out.println("ID: " + idItems.get(i) + ". Nama: " + salesItems.get(i));
-            }
-            System.out.println("========================");
-        }
-    }
 }
